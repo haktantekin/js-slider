@@ -22,9 +22,38 @@ let models = [
 ]
 
 let index = 0;
+let slideCount = models.length;
 
-document.querySelector('.card-title').textContent = models[index].name;
+showSlide(index);
 
-document.querySelector('.card-img-top').setAttribute('src', models[index].img);
+document.querySelector('.js-left-arrow').addEventListener('click',function(){
+    index--;
+    showSlide(index);
+    console.log(index);
+});
 
-document.querySelector('.card-link').setAttribute('href', models[index].link);
+document.querySelector('.js-right-arrow').addEventListener('click',function(){
+    index++;
+    showSlide(index);
+    console.log(index);
+
+});
+
+function showSlide(i){
+
+    index = i;
+
+    if (i<0){
+        index = slideCount - 1;
+    }
+    if (i >= slideCount){
+        index = 0;
+    }
+
+    document.querySelector('.card-title').textContent = models[index].name;
+
+    document.querySelector('.card-img-top').setAttribute('src', models[index].img);
+    
+    document.querySelector('.card-link').setAttribute('href', models[index].link);
+}
+
