@@ -23,8 +23,13 @@ let models = [
 
 let index = 0;
 let slideCount = models.length;
+let interval;
+let settings={
+    duration: '2000',
+    random: false
+}
 
-showSlide(index);
+init(settings);
 
 document.querySelector('.js-left-arrow').addEventListener('click',function(){
     index--;
@@ -39,11 +44,47 @@ document.querySelector('.js-right-arrow').addEventListener('click',function(){
 
 });
 
+
+document.querySelectorAll('.js-arrow').forEach(function(item){
+    item.addEventListener('mouseenter',function(){
+        clearInterval(interval);
+    });
+})
+
+document.querySelectorAll('.js-arrow').forEach(function(item){
+    item.addEventListener('mouseleave',function(){
+        init(settings);
+    });
+})
+
+function init(settings){
+
+    let prev;
+
+    interval = setInterval(function(){
+        if(settings.random){
+            do{
+              index = Math.floor(Math.random() * slideCount);
+            }
+            while(index==prev)
+            prev = index
+        }
+        else{
+            if (slideCount == index+1){
+                index = -1;
+            }
+            showSlide(index);
+            index++
+        }
+        showSlide(index);
+    },settings.duration)
+}
+
 function showSlide(i){
 
     index = i;
 
-    if (i<0){
+    if (i < 0){
         index = slideCount - 1;
     }
     if (i >= slideCount){
